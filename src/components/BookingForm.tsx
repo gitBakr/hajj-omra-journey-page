@@ -2,21 +2,22 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
+import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Plus, Minus } from "lucide-react";
 
 interface Traveler {
   firstName: string;
   lastName: string;
-  birthDate: string;
+  gender: "homme" | "femme";
 }
 
 const BookingForm = () => {
   const [travelers, setTravelers] = useState<Traveler[]>([
-    { firstName: "", lastName: "", birthDate: "" },
+    { firstName: "", lastName: "", gender: "homme" },
   ]);
 
   const addTraveler = () => {
-    setTravelers([...travelers, { firstName: "", lastName: "", birthDate: "" }]);
+    setTravelers([...travelers, { firstName: "", lastName: "", gender: "homme" }]);
   };
 
   const removeTraveler = (index: number) => {
@@ -25,9 +26,16 @@ const BookingForm = () => {
     }
   };
 
-  const updateTraveler = (index: number, field: keyof Traveler, value: string) => {
+  const updateTraveler = (
+    index: number,
+    field: keyof Traveler,
+    value: string
+  ) => {
     const newTravelers = [...travelers];
-    newTravelers[index] = { ...newTravelers[index], [field]: value };
+    newTravelers[index] = {
+      ...newTravelers[index],
+      [field]: value as any,
+    };
     setTravelers(newTravelers);
   };
 
@@ -114,7 +122,9 @@ const BookingForm = () => {
                     <Input
                       type="text"
                       value={traveler.firstName}
-                      onChange={(e) => updateTraveler(index, "firstName", e.target.value)}
+                      onChange={(e) =>
+                        updateTraveler(index, "firstName", e.target.value)
+                      }
                       className="border-2"
                       required
                     />
@@ -126,22 +136,43 @@ const BookingForm = () => {
                     <Input
                       type="text"
                       value={traveler.lastName}
-                      onChange={(e) => updateTraveler(index, "lastName", e.target.value)}
+                      onChange={(e) =>
+                        updateTraveler(index, "lastName", e.target.value)
+                      }
                       className="border-2"
                       required
                     />
                   </div>
                   <div className="md:col-span-2">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Date de naissance
+                      Sexe
                     </label>
-                    <Input
-                      type="date"
-                      value={traveler.birthDate}
-                      onChange={(e) => updateTraveler(index, "birthDate", e.target.value)}
-                      className="border-2"
-                      required
-                    />
+                    <RadioGroup
+                      value={traveler.gender}
+                      onValueChange={(value) =>
+                        updateTraveler(index, "gender", value)
+                      }
+                      className="flex gap-4"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="homme" id={`homme-${index}`} />
+                        <label
+                          htmlFor={`homme-${index}`}
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          Homme
+                        </label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="femme" id={`femme-${index}`} />
+                        <label
+                          htmlFor={`femme-${index}`}
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          Femme
+                        </label>
+                      </div>
+                    </RadioGroup>
                   </div>
                 </div>
               </div>
