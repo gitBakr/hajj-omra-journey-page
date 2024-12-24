@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
 // Simulation de données de réservation
 const mockBookings = [
@@ -26,37 +26,38 @@ const MyBookings = () => {
         <h2 className="text-3xl font-display text-center text-primary mb-12">
           Mes Réservations
         </h2>
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Forfait</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Voyageurs</TableHead>
-                <TableHead>Statut</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {mockBookings.map((booking) => (
-                <TableRow key={booking.id}>
-                  <TableCell className="font-medium">{booking.package}</TableCell>
-                  <TableCell>{new Date(booking.date).toLocaleDateString()}</TableCell>
-                  <TableCell>
-                    {booking.travelers.map((t, i) => (
-                      <div key={i}>
-                        {t.firstName} {t.lastName}
-                      </div>
-                    ))}
-                  </TableCell>
-                  <TableCell>
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {mockBookings.map((booking) => (
+            <Card key={booking.id} className="overflow-hidden">
+              <CardHeader className="bg-primary/5">
+                <CardTitle className="text-xl text-primary">{booking.package}</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-sm font-medium text-gray-500">Date</p>
+                    <p className="mt-1">{new Date(booking.date).toLocaleDateString()}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-500">Voyageurs</p>
+                    <div className="mt-1 space-y-1">
+                      {booking.travelers.map((traveler, index) => (
+                        <p key={index}>
+                          {traveler.firstName} {traveler.lastName}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-500">Statut</p>
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 mt-1">
                       {booking.status}
                     </span>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
     </div>
