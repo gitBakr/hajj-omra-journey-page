@@ -46,6 +46,101 @@ const BookingForm = () => {
       </h2>
       <form className="space-y-6">
         <div className="space-y-4">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-medium">Voyageurs</h3>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={addTraveler}
+                className="flex items-center gap-2"
+              >
+                <Plus className="w-4 h-4" /> Ajouter un voyageur
+              </Button>
+            </div>
+
+            {travelers.map((traveler, index) => (
+              <div key={index} className="p-4 border-2 rounded-lg space-y-4">
+                <div className="flex justify-between items-center">
+                  <h4 className="font-medium">Voyageur {index + 1}</h4>
+                  {travelers.length > 1 && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => removeTraveler(index)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      <Minus className="w-4 h-4" />
+                    </Button>
+                  )}
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Civilité
+                    </label>
+                    <RadioGroup
+                      value={traveler.gender}
+                      onValueChange={(value) =>
+                        updateTraveler(index, "gender", value)
+                      }
+                      className="flex gap-4"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="homme" id={`homme-${index}`} />
+                        <label
+                          htmlFor={`homme-${index}`}
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          Homme
+                        </label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="femme" id={`femme-${index}`} />
+                        <label
+                          htmlFor={`femme-${index}`}
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          Femme
+                        </label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Nom
+                    </label>
+                    <Input
+                      type="text"
+                      value={traveler.lastName}
+                      onChange={(e) =>
+                        updateTraveler(index, "lastName", e.target.value)
+                      }
+                      className="border-2"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Prénom
+                    </label>
+                    <Input
+                      type="text"
+                      value={traveler.firstName}
+                      onChange={(e) =>
+                        updateTraveler(index, "firstName", e.target.value)
+                      }
+                      className="border-2"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Email
@@ -82,101 +177,6 @@ const BookingForm = () => {
               <option value="hajj-confort">Hajj Confort</option>
               <option value="hajj-premium">Hajj Premium</option>
             </select>
-          </div>
-
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-medium">Voyageurs</h3>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={addTraveler}
-                className="flex items-center gap-2"
-              >
-                <Plus className="w-4 h-4" /> Ajouter un voyageur
-              </Button>
-            </div>
-
-            {travelers.map((traveler, index) => (
-              <div key={index} className="p-4 border-2 rounded-lg space-y-4">
-                <div className="flex justify-between items-center">
-                  <h4 className="font-medium">Voyageur {index + 1}</h4>
-                  {travelers.length > 1 && (
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => removeTraveler(index)}
-                      className="text-red-500 hover:text-red-700"
-                    >
-                      <Minus className="w-4 h-4" />
-                    </Button>
-                  )}
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Prénom
-                    </label>
-                    <Input
-                      type="text"
-                      value={traveler.firstName}
-                      onChange={(e) =>
-                        updateTraveler(index, "firstName", e.target.value)
-                      }
-                      className="border-2"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Nom
-                    </label>
-                    <Input
-                      type="text"
-                      value={traveler.lastName}
-                      onChange={(e) =>
-                        updateTraveler(index, "lastName", e.target.value)
-                      }
-                      className="border-2"
-                      required
-                    />
-                  </div>
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Sexe
-                    </label>
-                    <RadioGroup
-                      value={traveler.gender}
-                      onValueChange={(value) =>
-                        updateTraveler(index, "gender", value)
-                      }
-                      className="flex gap-4"
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="homme" id={`homme-${index}`} />
-                        <label
-                          htmlFor={`homme-${index}`}
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          Homme
-                        </label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="femme" id={`femme-${index}`} />
-                        <label
-                          htmlFor={`femme-${index}`}
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          Femme
-                        </label>
-                      </div>
-                    </RadioGroup>
-                  </div>
-                </div>
-              </div>
-            ))}
           </div>
           
           <div>
